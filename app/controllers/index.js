@@ -1,17 +1,15 @@
-function domId(id) {
-  return document.getElementById(id);
-}
+const getMyEle = (ele) => document.getElementById(ele);
 var productService = new ProductService();
 
 //api danh sach
-function getProductList() {
-  productService.getList().then(function (response) {
+const getProductList = () => {
+  productService.getList().then((response) => {
     renderProductList(response.data);
   });
-}
+};
 
-function renderProductList(data) {
-  var html = "";
+const renderProductList = (data) => {
+  let html = "";
   for (let i = 0; i < data.length; i++) {
     html += `<tr>
     <td>${i + 1}</td>
@@ -32,38 +30,38 @@ function renderProductList(data) {
       }')" >Sửa</button>
     </td>
   </tr>`;
-    domId("tblDanhSachSP").innerHTML = html;
+    getMyEle("tblDanhSachSP").innerHTML = html;
   }
-}
+};
 
 //Khi load vao du lieu dc cap nhat lien
-window.onload = function () {
+window.onload = () => {
   getProductList();
 };
 
 //Hien modal bam them SP
-domId("btnThemSP").onclick = function () {
+getMyEle("btnThemSP").addEventListener("click", () => {
   document.querySelector(".modal-title").innerHTML = "Thêm sản phẩm";
   document.querySelector(
     ".modal-footer"
   ).innerHTML = `<button onclick="addProduct()" class="btn btn-primary">Thêm</button>`;
-};
+});
 
 //Them san pham
-function addProduct() {
-  var isValid = validateForm();
+const addProduct = () => {
+  const isValid = validateForm();
   if (!isValid) return;
 
-  var name = domId("TenSP").value;
-  var price = domId("GiaSP").value;
-  var img = domId("HinhSP").value;
-  var description = domId("MoTa").value;
-  var screen = domId("ManHinh").value;
-  var backCamera = domId("CameraSau").value;
-  var frontCamera = domId("CameraTruoc").value;
-  var type = domId("loaiSP").value;
+  const name = getMyEle("TenSP").value;
+  const price = getMyEle("GiaSP").value;
+  const img = getMyEle("HinhSP").value;
+  const description = getMyEle("MoTa").value;
+  const screen = getMyEle("ManHinh").value;
+  const backCamera = getMyEle("CameraSau").value;
+  const frontCamera = getMyEle("CameraTruoc").value;
+  const type = getMyEle("loaiSP").value;
 
-  var products = new Product(
+  const products = new Product(
     name,
     price,
     screen,
@@ -74,43 +72,45 @@ function addProduct() {
     type
   );
 
-  productService.addProduct(products).then(function () {
+  productService.addProduct(products).then(() => {
     document.querySelector(".close").click();
     alert("Thêm sản phẩm thành công");
     getProductList();
   });
-}
+};
 
-function openUpdateModel(id) {
+const openUpdateModel = (id) => {
   document.querySelector(".modal-title").innerHTML = "Sửa sản phẩm";
   document.querySelector(
     ".modal-footer"
   ).innerHTML = `<button onclick="updateProduct(${id})" class="btn btn-primary">Sửa</button>`;
 
-  productService.getById(id).then(function (response) {
-    domId("TenSP").value = response.data.name;
-    domId("GiaSP").value = response.data.price;
-    domId("ManHinh").value = response.data.screen;
-    domId("CameraSau").value = response.data.backCamera;
-    domId("CameraTruoc").value = response.data.frontCamera;
-    domId("HinhSP").value = response.data.img;
-    domId("MoTa").value = response.data.desc;
+  productService.getById(id).then((response) => {
+    getMyEle("TenSP").value = response.data.name;
+    getMyEle("GiaSP").value = response.data.price;
+    getMyEle("ManHinh").value = response.data.screen;
+    getMyEle("CameraSau").value = response.data.backCamera;
+    getMyEle("CameraTruoc").value = response.data.frontCamera;
+    getMyEle("HinhSP").value = response.data.img;
+    getMyEle("MoTa").value = response.data.desc;
 
-    domId("loaiSP").value = response.data.type;
+    getMyEle("loaiSP").value = response.data.type;
   });
-}
+};
 
-function updateProduct(id) {
-  var name = domId("TenSP").value;
-  var price = domId("GiaSP").value;
-  var img = domId("HinhSP").value;
-  var description = domId("MoTa").value;
-  var screen = domId("ManHinh").value;
-  var backCamera = domId("CameraSau").value;
-  var frontCamera = domId("CameraTruoc").value;
-  var type = domId("loaiSP").value;
+const updateProduct = (id) => {
+  const isValid = validateForm();
+  if (!isValid) return;
+  const name = getMyEle("TenSP").value;
+  const price = getMyEle("GiaSP").value;
+  const img = getMyEle("HinhSP").value;
+  const description = getMyEle("MoTa").value;
+  const screen = getMyEle("ManHinh").value;
+  const backCamera = getMyEle("CameraSau").value;
+  const frontCamera = getMyEle("CameraTruoc").value;
+  const type = getMyEle("loaiSP").value;
 
-  var products = new Product(
+  const products = new Product(
     name,
     price,
     screen,
@@ -121,30 +121,30 @@ function updateProduct(id) {
     type
   );
 
-  productService.updateProduct(id, products).then(function () {
+  productService.updateProduct(id, products).then(() => {
     document.querySelector(".close").click();
     alert("Sửa sản phẩm thành công");
     getProductList();
   });
-}
+};
 
-function deleteProduct(id) {
-  productService.deleteProduct(id).then(function () {
+const deleteProduct = (id) => {
+  productService.deleteProduct(id).then(() => {
     alert("Xoá sản phẩm thành công");
     getProductList();
   });
-}
+};
 
 /**********VALIDATE FORM ***********/
 function validateForm() {
-  var name = domId("TenSP").value;
-  var price = domId("GiaSP").value;
-  var img = domId("HinhSP").value;
-  var description = domId("MoTa").value;
-  var screen = domId("ManHinh").value;
-  var backCamera = domId("CameraSau").value;
-  var frontCamera = domId("CameraTruoc").value;
-  var type = domId("loaiSP").value;
+  var name = getMyEle("TenSP").value;
+  var price = getMyEle("GiaSP").value;
+  var img = getMyEle("HinhSP").value;
+  var description = getMyEle("MoTa").value;
+  var screen = getMyEle("ManHinh").value;
+  var backCamera = getMyEle("CameraSau").value;
+  var frontCamera = getMyEle("CameraTruoc").value;
+  var type = getMyEle("loaiSP").value;
 
   var isValid = true;
 
@@ -172,6 +172,7 @@ function validateForm() {
     "txtBC",
     "*Vui lòng nhập kích thước màn Camera sau"
   );
+  isValid &= required(type, "txtType", "*Vui lòng nhập loại");
   // isValid &= required(type, "txtType", "*Vui lòng chọn loại ");
   //neu isValid = true => dung va nguoc lai
   return isValid;
@@ -179,19 +180,19 @@ function validateForm() {
 
 function required(value, spanId, alert) {
   if (value.length == "" && value.length === 0) {
-    domId(spanId).innerHTML = alert;
+    getMyEle(spanId).innerHTML = alert;
     return false;
   }
-  domId(spanId).innerHTML = "";
+  getMyEle(spanId).innerHTML = "";
   return true;
 }
 
 function checkNumber(value, spanId, alert) {
   var parttern = /^[0-9]+$/;
   if (parttern.test(value)) {
-    domId(spanId).innerHTML = "";
+    getMyEle(spanId).innerHTML = "";
     return true;
   }
-  domId(spanId).innerHTML = alert;
+  getMyEle(spanId).innerHTML = alert;
   return false;
 }
