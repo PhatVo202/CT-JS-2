@@ -93,7 +93,7 @@ const openUpdateModel = (id) => {
     getMyEle("CameraTruoc").value = response.data.frontCamera;
     getMyEle("HinhSP").value = response.data.img;
     getMyEle("MoTa").value = response.data.desc;
-
+    
     getMyEle("loaiSP").value = response.data.type;
   });
 };
