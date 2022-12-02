@@ -18,7 +18,7 @@ const renderProductList = (data) => {
     <td>${data[i].screen}</td>
     <td>${data[i].backCamera}</td>
     <td>${data[i].frontCamera}</td>
-    <td>${data[i].img}</td>
+    <td><img class="img-fluid" src=${data[i].img}></td>
     <td>${data[i].desc}</td>
     <td>${data[i].type}</td>
     <td>
@@ -93,7 +93,7 @@ const openUpdateModel = (id) => {
     getMyEle("CameraTruoc").value = response.data.frontCamera;
     getMyEle("HinhSP").value = response.data.img;
     getMyEle("MoTa").value = response.data.desc;
-    
+
     getMyEle("loaiSP").value = response.data.type;
   });
 };
